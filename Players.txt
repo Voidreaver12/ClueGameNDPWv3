@@ -1,0 +1,6 @@
+Trump RED 4 0
+Hillary BLUE 0 10
+Bernie PURPLE 4 13
+Miley WHITE 19 11
+Kanye BLACK 19 4
+Gaga YELLOW 15 0

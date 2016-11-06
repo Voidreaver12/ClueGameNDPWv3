@@ -1,0 +1,11 @@
+B, Balcony, Card
+G, Gym, Card
+A, Art gallery, Card
+C, Computer Lab, Card
+P, Bathroom, Card
+J, Game room, Card
+L, Library, Card
+D, Bar, Card
+O, Office room, Card
+W, Walkway, Other
+X, Closet, Other
