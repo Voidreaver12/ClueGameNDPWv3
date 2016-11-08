@@ -33,7 +33,6 @@ public class Board {
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private ArrayList<Card> cards = new ArrayList<Card>();
 	private ArrayList<Card> deck = new ArrayList<Card>();
-	private ArrayList<Card> cardsDealt = new ArrayList<Card>();
 	private ArrayList<Card> weaponCards = new ArrayList<Card>();
 	private ArrayList<Card> roomCards = new ArrayList<Card>();
 	private ArrayList<Card> peopleCards = new ArrayList<Card>();
