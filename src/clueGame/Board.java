@@ -55,77 +55,15 @@ public class Board {
 		roomConfigFile = string2;
 	}
 	public void initialize() {
-		FileReader reader = null;
-		Scanner in = null;
 		try {
-			reader = new FileReader(boardConfigFile);
-			in = new Scanner(reader);
-		} catch (FileNotFoundException e) {
-			System.out.println(e.getMessage());
+			loadRoomConfig();
+			loadBoardConfig();
+			calcAdjacencies();
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+		} catch (BadConfigFormatException e) {
+			e.printStackTrace();
 		}
-		try {
-			numRows = 0;
-			while (in.hasNextLine()) {
-				String line = in.nextLine();
-				String[] pieces = line.split(" ");
-				String temp = "";
-				numColumns = 0;
-				for(int i = 0; i < pieces[0].length(); i++){
-					if (pieces[0].charAt(i) == ','){
-						if(temp.length() == 1)
-							board[numRows][numColumns] = new BoardCell(numRows, numColumns, temp.charAt(0), '!');
-						else 
-							board[numRows][numColumns] = new BoardCell(numRows, numColumns, temp.charAt(0), temp.charAt(1));
-						temp = "";
-						numColumns++;
-					}
-					else
-						temp += pieces[0].charAt(i);
-					if(i == pieces[0].length() - 1){
-						if(temp.length() == 1)
-							board[numRows][numColumns] = new BoardCell(numRows, numColumns, temp.charAt(0), '!');
-						else 
-							board[numRows][numColumns] = new BoardCell(numRows, numColumns, temp.charAt(0), temp.charAt(1));
-						temp = "";
-						numColumns++;
-					}
-				}
-				numRows++;
-			}
-		} catch (NumberFormatException e) {
-			System.out.println(e.getMessage());
-		}
-		in.close();
-		FileReader reader2 = null;
-		Scanner in2 = null;
-		try {
-			reader2 = new FileReader(roomConfigFile);
-			in2 = new Scanner(reader2);
-		} catch (FileNotFoundException e) {
-			System.out.println(e.getMessage());
-		}
-		try {
-			while (in2.hasNextLine()) {
-				String line = in2.nextLine();
-				String[] linePieces = line.split(", ");
-				char temp = line.charAt(0);
-				String tempsub = line.substring(3, line.length());
-				rooms.put(temp, tempsub.substring(0, tempsub.indexOf(',')));
-				Card card = new Card(tempsub.substring(0, tempsub.indexOf(',')), CardType.ROOM);
-				if (linePieces[2].equals("Card")) {
-					cards.add(card);
-					roomCards.add(card);
-				}
-				
-			}
-		} catch (NumberFormatException e) {
-			System.out.println(e.getMessage());
-		}
-		calcAdjacencies();
-		
-		
-		
-		
 	}
 	public void calcAdjacencies(){
 		for(int i = 0; i < numRows; i++){
@@ -168,47 +106,64 @@ public class Board {
 	public BoardCell getCellAt(int i, int j) {
 		return board[i][j];
 	}
-	public void loadRoomConfig() throws BadConfigFormatException, FileNotFoundException {
+	
+	public void loadRoomConfig() throws FileNotFoundException, BadConfigFormatException {
 		FileReader roomFile = new FileReader(roomConfigFile);
 		Scanner in = new Scanner(roomFile);
+		// for each line (each room)
 		while (in.hasNextLine()) {
 			String line = in.nextLine();
+			// Check to make sure initial is only one letter
 			if(line.indexOf(',') != 1)
 				throw new BadConfigFormatException("Room is represented by more than one character");
+			// Check to make sure the room is of type Card or Other
 			String temp = line.substring(3, line.length());
 			String check = temp.substring(temp.indexOf(',') + 2,temp.length());
 			if( !check.equals("Card") && !check.equals("Other"))
 				throw new BadConfigFormatException();
-			
-			
+			// After checking for errors for this line, load it into the game
+			String[] linePieces = line.split(", ");
+			//String roomName = line.substring(3, line.length());
+			//roomName = roomName.substring(0, roomName.indexOf(','));
+			rooms.put(linePieces[0].charAt(0), linePieces[1]);
+			Card card = new Card(linePieces[1], CardType.ROOM);
+			if (linePieces[2].equals("Card")){
+				cards.add(card);
+				roomCards.add(card);
+			}
 		}
 		in.close();
 	}
-	public void loadBoardConfig() throws BadConfigFormatException, FileNotFoundException {
+	public void loadBoardConfig() throws FileNotFoundException, BadConfigFormatException {
 		FileReader roomFile = new FileReader(boardConfigFile);
 		Scanner in = new Scanner(roomFile);
-		int previousColumnNum = 0;
+		int columns = 0;
 		String temp = "";
+		int row = 0;
 		while (in.hasNextLine()) {
-			String line = in.nextLine();
-			String[] pieces = line.split(" ");
-			previousColumnNum = numColumns;
-			numColumns = 0;
-			for(int i = 0; i < pieces[0].length(); i++){
-				if (pieces[0].charAt(i) == ','){
-					numColumns++;
-					if( !rooms.containsKey(temp.charAt(0)) )
-						throw new BadConfigFormatException("You have a room in the clue board, that is not in the legend file");
-					temp = "";
-				}
-				else
-					temp += pieces[0].charAt(i);
+			String[] linePieces = in.nextLine().split(",");
+			if (row == 0) {
+				columns = linePieces.length;
 			}
-			numColumns++;
-			if((numColumns != previousColumnNum) && (previousColumnNum != 0))
-				throw new BadConfigFormatException("Different Number of columns per row!!");
+			else {
+				if (columns != linePieces.length) {
+					throw new BadConfigFormatException("Invalid number of columns per row");
+				}
+			}
+			for (int col = 0; col < linePieces.length; col++) {
+				if (!rooms.containsKey(linePieces[col].charAt(0))) {
+					throw new BadConfigFormatException("The board config has a room that is not in the legend");
+				}
+				if (linePieces[col].length() == 1)
+					board[row][col] = new BoardCell(row, col, linePieces[col].charAt(0), '!');
+				else
+					board[row][col] = new BoardCell(row, col, linePieces[col].charAt(0), linePieces[col].charAt(1));
+			}
+			row++;
 		}
 		in.close();
+		numRows = row;
+		numColumns = columns;
 	}
 	public Set<BoardCell> getAdjList(int i, int j) {
 		return adjMatrix.get(board[i][j]);
@@ -340,16 +295,6 @@ public class Board {
 				return c;
 			}
 		}
-		/*
-		for(int i = m; i < m + players.size(); i++){
-			int j = i % players.size();
-			if (null != players.get(j).disproveSuggestion(suggestion)){
-				Card cc = players.get(j).disproveSuggestion(suggestion);
-				if (j == m ) return null;
-				else return cc;
-			}
-		}
-		*/
 		return null;
 	}
 	public boolean checkAccusation(Solution accusation){
