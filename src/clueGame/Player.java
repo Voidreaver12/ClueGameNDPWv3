@@ -10,7 +10,7 @@ public abstract class Player {
 	private int column;
 	private Color color;
 	private Set<Card> myCards = new HashSet<Card>();
-	private Set<Card> seenCards = new HashSet<Card>();
+	//private Set<Card> seenCards = new HashSet<Card>();
 	
 	
 	public Card disproveSuggestion(Solution suggestion){
