@@ -13,7 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class ControlGUI extends JFrame {
+public class ControlPanel extends JPanel {
 	private String playerNameStr;
 	private String guessPerson;
 	private String guessWeapon;
@@ -22,14 +22,12 @@ public class ControlGUI extends JFrame {
 	private int intRoll;
 	
 	
-	public ControlGUI() {
-		setTitle("Clue Control");
-		setSize(new Dimension(800, 120));
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	public ControlPanel() {
+		setLayout(new GridLayout(2, 1));
 		TurnPanel tPanel = new TurnPanel();
-		add(tPanel, BorderLayout.NORTH);
 		GuessPanel gPanel = new GuessPanel();
-		add(gPanel, BorderLayout.CENTER);
+		add(tPanel);
+		add(gPanel);
 	}
 	
 	// Panel for displaying whose turn it is,
@@ -102,11 +100,6 @@ public class ControlGUI extends JFrame {
 		}
 	}	
 		
-		
-	public static void main(String[] args) {
-		ControlGUI gui = new ControlGUI();
-		gui.setVisible(true);
 
-	}
 
 }

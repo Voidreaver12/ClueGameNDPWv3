@@ -1,5 +1,8 @@
 package clueGame;
 
+import java.awt.Color;
+import java.awt.Graphics;
+
 public class BoardCell {
 
 	private int row;
@@ -54,6 +57,37 @@ public class BoardCell {
 	@Override
 	public String toString() {
 		return "BoardCell [row=" + row + ", column=" + column + "]";
+	}
+	
+	public void draw(Graphics g, int i, int j) {
+		final int size = 35;
+		g.setColor(Color.YELLOW);
+		g.fillRect(i*size, j*size, size, size);
+		g.setColor(Color.BLACK);
+		g.drawRect(i*size, j*size, size, size);
+		if (initial != 'W') {
+			g.setColor(Color.GRAY);
+			g.fillRect(i*size, j*size, size, size);
+		}
+		g.setColor(Color.BLUE);
+		switch(opening) {
+		case UP:
+			g.fillRect(i*size, j*size, size, size/5);
+			break;
+		case DOWN:
+			g.fillRect(i*size, j*size+30, size, size/5);
+			break;
+		case RIGHT:
+			g.fillRect(i*size+30, j*size, size/5, size);
+			break;
+		case LEFT:
+			g.fillRect(i*size, j*size, size/5, size);
+			break;
+			
+		}
+		//System.out.println(i);
+		//System.out.println("hello");
+		
 	}
 	
 	
