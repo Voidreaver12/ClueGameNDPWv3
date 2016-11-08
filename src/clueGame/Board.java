@@ -137,7 +137,6 @@ public class Board {
 		FileReader roomFile = new FileReader(boardConfigFile);
 		Scanner in = new Scanner(roomFile);
 		int columns = 0;
-		String temp = "";
 		int row = 0;
 		while (in.hasNextLine()) {
 			String[] linePieces = in.nextLine().split(",");
