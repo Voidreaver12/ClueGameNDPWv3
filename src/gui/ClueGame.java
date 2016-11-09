@@ -23,7 +23,7 @@ import clueGame.DetectiveNotes;
 public class ClueGame extends JFrame {
 	public ClueGame() {
 		setTitle("Clue");
-		setSize(new Dimension(850, 850));
+		setSize(new Dimension(800, 800));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		ControlPanel control = new ControlPanel();
 		add(control, BorderLayout.SOUTH);
@@ -31,6 +31,15 @@ public class ClueGame extends JFrame {
 		board.setConfigFiles("ClueLayout.csv", "Legend.txt");
 		board.initialize();
 		add(board, BorderLayout.CENTER);
+		
+		DetectiveNotes detNotes = new DetectiveNotes();
+		add(detNotes, BorderLayout.EAST);
+		JMenuBar bar = new JMenuBar();
+		setJMenuBar(bar);
+		JMenu menu = new JMenu("File");
+		menu.add(detectiveNotes());
+		menu.add(createFileExitItem());
+		bar.add(menu);
 	}
 	
 	private JMenu fileMenu(){
