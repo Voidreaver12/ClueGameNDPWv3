@@ -24,6 +24,8 @@ import javax.swing.JPanel;
 public class Board extends JPanel {
 
 	public static final int MAX_BOARD_SIZE = 50;
+	public static final int SQUARE_SIZE = 35;
+	public static final int PLAYER_SIZE = 31;
 	private static int numRows;
 	private static int numColumns;
 	private static Board theInstance = new Board();
@@ -321,49 +323,62 @@ public class Board extends JPanel {
 				board[i][j].draw(g, j, i);
 			}
 		}
-		char[] roomName = {'L', 'i', 'b', 'r','a','r','y'};
-		g.drawChars(roomName, 0, 7, 245, 70);
-		
-		char[] roomName2 = {'A','r','t',' ','G','a','l','l','e','r','y'};
-		g.drawChars(roomName2, 0, 11, 35, 70);
-		
+		char[] library = {'L', 'i', 'b', 'r','a','r','y'};
+		g.drawChars(library, 0, 7, 245, 70);
+		char[] art = {'A','r','t',' ','G','a','l','l','e','r','y'};
+		g.drawChars(art, 0, 11, 35, 70);
 		char[] gym = {'G','y','m'};
 		g.drawChars(gym, 0, 3, 440, 70);
-		
 		char[] bar = {'B','a','r'};
 		g.drawChars(bar, 0, 3, 35, 350);
-		
 		char[] office = {'O','f','f','i','c','e'};
 		g.drawChars(office, 0, 6, 335, 370);
-		
 		char[] balcony = {'B','a','l','c','o','n','y'};
 		g.drawChars(balcony, 0, 7, 440, 370);
-		
 		char[] bathroom = {'B','a','t','h','r','o','o','m'};
 		g.drawChars(bathroom, 0, 8, 415, 550);
-		
 		char[] gameroom = {'G','a','m','e','r','o','o','m'};
 		g.drawChars(gameroom, 0, 8, 210, 650);
-		
 		char[] lab = {'C','o','m','p','u','t','e','r',' ','L','a','b'};
 		g.drawChars(lab, 0, 12, 20, 650);
 		// TODO draw borders for remaining players
-		g.setColor(Color.RED);
-		g.fillArc(players.get(0).getColumn()*35, players.get(0).getRow()*35, 35, 35, 0, 360);
+		/*
+		g.setColor(players.get(0).getColor());
+		g.fillArc(players.get(0).getColumn()*SQUARE_SIZE+2, players.get(0).getRow()*SQUARE_SIZE+2, 31, 31, 0, 360);
 		g.setColor(Color.BLACK);
-		g.drawArc(players.get(0).getColumn()*35, players.get(0).getRow()*35, 35, 35, 0, 360);
-		g.setColor(Color.BLUE);
-		g.fillArc(players.get(1).getColumn()*35, players.get(1).getRow()*35, 35, 35, 0, 360);
-		g.setColor(Color.MAGENTA);
-		g.fillArc(players.get(2).getColumn()*35, players.get(2).getRow()*35, 35, 35, 0, 360);
-		g.setColor(Color.WHITE);
-		g.fillArc(players.get(3).getColumn()*35, players.get(3).getRow()*35, 35, 35, 0, 360);
+		g.drawArc(players.get(0).getColumn()*35+2, players.get(0).getRow()*SQUARE_SIZE+2, 31, 31, 0, 360);
+		
+		g.setColor(players.get(1).getColor());
+		g.fillArc(players.get(1).getColumn()*35+1, players.get(1).getRow()*SQUARE_SIZE+1, 33, 33, 0, 360);
 		g.setColor(Color.BLACK);
-		g.fillArc(players.get(4).getColumn()*35, players.get(4).getRow()*35, 35, 35, 0, 360);
-		g.setColor(Color.GREEN);
-		g.fillArc(players.get(5).getColumn()*35, players.get(5).getRow()*35, 35, 35, 0, 360);
+		g.drawArc(players.get(1).getColumn()*35+1, players.get(1).getRow()*SQUARE_SIZE+1, 33, 33, 0, 360);
 		
+		g.setColor(players.get(2).getColor());
+		g.fillArc(players.get(2).getColumn()*35+1, players.get(2).getRow()*SQUARE_SIZE+1, 33, 33, 0, 360);
+		g.setColor(Color.BLACK);
+		g.drawArc(players.get(2).getColumn()*35+1, players.get(2).getRow()*SQUARE_SIZE+1, 33, 33, 0, 360);
 		
+		g.setColor(players.get(3).getColor());
+		g.fillArc(players.get(3).getColumn()*35+1, players.get(3).getRow()*35+1, 33, 33, 0, 360);
+		g.setColor(Color.BLACK);
+		g.drawArc(players.get(3).getColumn()*35+1, players.get(3).getRow()*35+1, 33, 33, 0, 360);
+		
+		g.setColor(players.get(4).getColor());
+		g.fillArc(players.get(4).getColumn()*35+1, players.get(4).getRow()*35+1, 33, 33, 0, 360);
+		g.setColor(Color.BLACK);
+		g.drawArc(players.get(4).getColumn()*35+1, players.get(4).getRow()*35+1, 33, 33, 0, 360);
+		
+		g.setColor(players.get(5).getColor());
+		g.fillArc(players.get(5).getColumn()*35+1, players.get(5).getRow()*35+1, 33, 33, 0, 360);
+		g.setColor(Color.BLACK);
+		g.drawArc(players.get(5).getColumn()*35+1, players.get(5).getRow()*35+1, 33, 33, 0, 360);
+		*/
+		for (Player p : players) {
+			g.setColor(p.getColor());
+			g.fillArc(p.getColumn()*SQUARE_SIZE+2, p.getRow()*SQUARE_SIZE+2, PLAYER_SIZE, PLAYER_SIZE, 0, 360);
+			g.setColor(Color.BLACK);
+			g.drawArc(p.getColumn()*SQUARE_SIZE+2, p.getRow()*SQUARE_SIZE+2, PLAYER_SIZE, PLAYER_SIZE, 0, 360);
+		}
 		
 		
 		
