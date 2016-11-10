@@ -341,48 +341,13 @@ public class Board extends JPanel {
 		g.drawChars(gameroom, 0, 8, 210, 650);
 		char[] lab = {'C','o','m','p','u','t','e','r',' ','L','a','b'};
 		g.drawChars(lab, 0, 12, 20, 650);
-		// TODO draw borders for remaining players
-		/*
-		g.setColor(players.get(0).getColor());
-		g.fillArc(players.get(0).getColumn()*SQUARE_SIZE+2, players.get(0).getRow()*SQUARE_SIZE+2, 31, 31, 0, 360);
-		g.setColor(Color.BLACK);
-		g.drawArc(players.get(0).getColumn()*35+2, players.get(0).getRow()*SQUARE_SIZE+2, 31, 31, 0, 360);
-		
-		g.setColor(players.get(1).getColor());
-		g.fillArc(players.get(1).getColumn()*35+1, players.get(1).getRow()*SQUARE_SIZE+1, 33, 33, 0, 360);
-		g.setColor(Color.BLACK);
-		g.drawArc(players.get(1).getColumn()*35+1, players.get(1).getRow()*SQUARE_SIZE+1, 33, 33, 0, 360);
-		
-		g.setColor(players.get(2).getColor());
-		g.fillArc(players.get(2).getColumn()*35+1, players.get(2).getRow()*SQUARE_SIZE+1, 33, 33, 0, 360);
-		g.setColor(Color.BLACK);
-		g.drawArc(players.get(2).getColumn()*35+1, players.get(2).getRow()*SQUARE_SIZE+1, 33, 33, 0, 360);
-		
-		g.setColor(players.get(3).getColor());
-		g.fillArc(players.get(3).getColumn()*35+1, players.get(3).getRow()*35+1, 33, 33, 0, 360);
-		g.setColor(Color.BLACK);
-		g.drawArc(players.get(3).getColumn()*35+1, players.get(3).getRow()*35+1, 33, 33, 0, 360);
-		
-		g.setColor(players.get(4).getColor());
-		g.fillArc(players.get(4).getColumn()*35+1, players.get(4).getRow()*35+1, 33, 33, 0, 360);
-		g.setColor(Color.BLACK);
-		g.drawArc(players.get(4).getColumn()*35+1, players.get(4).getRow()*35+1, 33, 33, 0, 360);
-		
-		g.setColor(players.get(5).getColor());
-		g.fillArc(players.get(5).getColumn()*35+1, players.get(5).getRow()*35+1, 33, 33, 0, 360);
-		g.setColor(Color.BLACK);
-		g.drawArc(players.get(5).getColumn()*35+1, players.get(5).getRow()*35+1, 33, 33, 0, 360);
-		*/
+
 		for (Player p : players) {
 			g.setColor(p.getColor());
 			g.fillArc(p.getColumn()*SQUARE_SIZE+2, p.getRow()*SQUARE_SIZE+2, PLAYER_SIZE, PLAYER_SIZE, 0, 360);
 			g.setColor(Color.BLACK);
 			g.drawArc(p.getColumn()*SQUARE_SIZE+2, p.getRow()*SQUARE_SIZE+2, PLAYER_SIZE, PLAYER_SIZE, 0, 360);
 		}
-		
-		
-		
-		
 	}
 	
 	
