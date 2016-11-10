@@ -12,13 +12,13 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 import clueGame.Board;
-import clueGame.DetectiveNotes;
 
 public class ClueGame extends JFrame {
 	public ClueGame() {
@@ -66,6 +66,7 @@ public class ClueGame extends JFrame {
 	
 	public static void main(String[] args) {
 		ClueGame clue = new ClueGame();
+		JOptionPane.showMessageDialog(clue,"You are Trump! Press Next Player to begin playing.", "Welcome to Clue", JOptionPane.INFORMATION_MESSAGE);
 		clue.setVisible(true);
 	}
 	
