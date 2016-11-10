@@ -23,10 +23,11 @@ import clueGame.Board;
 public class ClueGame extends JFrame {
 	public ClueGame() {
 		setTitle("Clue");
-		setSize(new Dimension(800, 800));
+		setSize(new Dimension(850, 850));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		ControlPanel control = new ControlPanel();
 		add(control, BorderLayout.SOUTH);
+		
 		Board board = Board.getInstance();
 		board.setConfigFiles("ClueLayout.csv", "Legend.txt");
 		board.initialize();
@@ -40,6 +41,9 @@ public class ClueGame extends JFrame {
 		menu.add(detectiveNotes());
 		menu.add(createFileExitItem());
 		bar.add(menu);
+		
+		MyCardsPanel cards = new MyCardsPanel(board.getPlayers().get(0).getCards());
+		add(cards, BorderLayout.EAST);
 	}
 	
 	private JMenu fileMenu(){

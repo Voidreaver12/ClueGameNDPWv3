@@ -64,6 +64,7 @@ public class Board extends JPanel {
 			calcAdjacencies();
 			loadPlayersConfigFiles("Players.txt");
 			loadWeaponsConfigFiles("Weapons.txt");
+			dealCards();
 			//paintComponent(g);
 		} catch (FileNotFoundException e1) {
 			e1.printStackTrace();
