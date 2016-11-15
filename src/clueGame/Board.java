@@ -391,7 +391,7 @@ public class Board extends JPanel {
 					break;
 				}
 			}
-			if (!valid) {
+			if (!valid && turnInProgress) {
 				JOptionPane.showMessageDialog(Board.getInstance(),"That is not a valid target!", "Error", JOptionPane.INFORMATION_MESSAGE);
 			}
 			repaint();

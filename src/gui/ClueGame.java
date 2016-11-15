@@ -70,8 +70,8 @@ public class ClueGame extends JFrame {
 	
 	public static void main(String[] args) {
 		ClueGame clue = new ClueGame();
-		JOptionPane.showMessageDialog(clue,"You are Trump! Press Next Player to begin playing.", "Welcome to Clue", JOptionPane.INFORMATION_MESSAGE);
 		clue.setVisible(true);
+		JOptionPane.showMessageDialog(clue,"You are Trump! Press Next Player to begin playing.", "Welcome to Clue", JOptionPane.INFORMATION_MESSAGE);
 	}
 	
 	public JMenuItem detectiveNotes () {
