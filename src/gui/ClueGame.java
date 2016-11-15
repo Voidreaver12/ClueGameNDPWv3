@@ -21,6 +21,7 @@ import javax.swing.border.TitledBorder;
 import clueGame.Board;
 
 public class ClueGame extends JFrame {
+	Board board = Board.getInstance();
 	public ClueGame() {
 		setTitle("Clue");
 		setSize(new Dimension(850, 850));
@@ -28,13 +29,12 @@ public class ClueGame extends JFrame {
 		ControlPanel control = new ControlPanel();
 		add(control, BorderLayout.SOUTH);
 		
-		Board board = Board.getInstance();
 		board.setConfigFiles("ClueLayout.csv", "Legend.txt");
 		board.initialize();
 		add(board, BorderLayout.CENTER);
 		
-		DetectiveNotes detNotes = new DetectiveNotes();
-		add(detNotes, BorderLayout.EAST);
+		//DetectiveNotes detNotes = new DetectiveNotes();
+		//add(detNotes, BorderLayout.EAST);
 		JMenuBar bar = new JMenuBar();
 		setJMenuBar(bar);
 		JMenu menu = new JMenu("File");
@@ -45,18 +45,18 @@ public class ClueGame extends JFrame {
 		MyCardsPanel cards = new MyCardsPanel(board.getPlayers().get(0).getCards());
 		add(cards, BorderLayout.EAST);
 	}
-	
+	/*
 	private JMenu fileMenu(){
 		DetectiveNotes detNotes = new DetectiveNotes();
 		JMenuBar bar = new JMenuBar();
 		setJMenuBar(bar);
 		JMenu menu = new JMenu("File");
-		menu.add(detectiveNotes());
+		menu.add(detNotes);
 		menu.add(createFileExitItem());
 		bar.add(menu);
 		return menu;
 	}
-	
+	*/
 	private JMenuItem createFileExitItem(){
 		JMenuItem item = new JMenuItem("Exit");
 		class MenuItemListener implements ActionListener{
@@ -168,10 +168,8 @@ public class ClueGame extends JFrame {
 			}
 			item.addActionListener(new MenuItemListener());
 			
-			return item;
-
-		
+			return item;		
 	}
-
+	
 
 }

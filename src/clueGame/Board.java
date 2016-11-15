@@ -26,6 +26,7 @@ public class Board extends JPanel {
 	public static final int MAX_BOARD_SIZE = 50;
 	public static final int SQUARE_SIZE = 35;
 	public static final int PLAYER_SIZE = 31;
+	private static int whoseTurn = 10;
 	private static int numRows;
 	private static int numColumns;
 	private static Board theInstance = new Board();
@@ -352,6 +353,17 @@ public class Board extends JPanel {
 	
 	
 	
+	
+	
+	public int getTurn() {
+		return whoseTurn;
+	}
+	public void incrementTurn() {
+		whoseTurn++;
+		if (whoseTurn >= players.size()) {
+			whoseTurn = 0;
+		}
+	}
 	// For Testing
 	public void disprove(String c) {
 		disprovedCards.add(c);
