@@ -5,6 +5,7 @@ package clueGame;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
@@ -20,8 +21,14 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
 
 
 public class Board extends JPanel {
@@ -387,6 +394,43 @@ public class Board extends JPanel {
 						&& event.getY() <= (c.getRow() + 1)*SQUARE_SIZE) {
 					valid = true;
 					players.get(0).move(c);
+					if (c.isRoom()) {
+						//System.out.println("hello");
+						JDialog sugg = new JDialog();
+						sugg.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+						sugg.setLayout(new GridLayout(3,2));
+						sugg.setBounds(1000, 200, 600, 600);
+						sugg.setTitle("Create Suggestion");
+						//System.out.println("jkldfnb");
+						JTextField roomg = new JTextField();
+						roomg.setText(rooms.get(c.getInitial()));
+						roomg.setBorder(new TitledBorder (new EtchedBorder(), "Room Guess"));
+						roomg.setEditable(false);
+						sugg.add(roomg);
+						
+						JComboBox<String> weapg = new JComboBox<String>();
+						weapg.addItem("Handsaw");
+						weapg.addItem("Scooter");
+						weapg.addItem("Fork");
+						weapg.addItem("Belt");
+						weapg.addItem("Hamster");
+						weapg.addItem("Sponge");
+						weapg.setBorder(new TitledBorder (new EtchedBorder(), "Weapon Guess"));
+						sugg.add(weapg);
+						
+						JComboBox<String> persong = new JComboBox<String>();
+						persong.addItem("Trump");
+						persong.addItem("Hillary");
+						persong.addItem("Bernie");
+						persong.addItem("Miley");
+						persong.addItem("Kanye");
+						persong.addItem("Gaga");
+						persong.setBorder(new TitledBorder (new EtchedBorder(), "Person Guess"));
+						sugg.add(persong);
+						
+						sugg.setVisible(true);
+						
+					}
 					turnInProgress = false;
 					break;
 				}

@@ -9,15 +9,20 @@ import java.awt.event.ActionListener;
 import java.util.Random;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
 
 import clueGame.Board;
 import clueGame.ComputerPlayer;
 import clueGame.HumanPlayer;
 import clueGame.Player;
+import clueGame.Solution;
 
 public class ControlPanel extends JPanel {
 	private String playerNameStr;
@@ -85,6 +90,15 @@ public class ControlPanel extends JPanel {
 					//System.out.println(board.getTargets());
 					//System.out.println(current.getRow() + "    " + current.getColumn());
 					board.repaint();
+					if (board.getCellAt(current.getRow(), current.getColumn()).isRoom()) {
+						Solution suggestion = current.createSuggestion();
+						updateGuess(suggestion);
+					}
+					else {
+						Solution suggestion = new Solution();
+						updateGuess(suggestion);
+					}
+					
 				}
 				else if (current instanceof HumanPlayer) {
 					board.clearTargets();
@@ -92,10 +106,48 @@ public class ControlPanel extends JPanel {
 					//System.out.println(board.getTargets());
 					board.doPlayerTurn();
 					board.repaint();
+					//System.out.println(board.getCellAt(current.getRow(), current.getColumn()));
+					if (board.getCellAt(current.getRow(), current.getColumn()).isRoom()) {
+						//procSuggestion(current);
+						//System.out.println("jkldfnb");
+					}
 				}
 				
 			}
 		}
+	}
+	
+	
+	private void procSuggestion(Player human) {
+		JDialog sugg = new JDialog();
+		sugg.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		sugg.setLayout(new GridLayout(3,2));
+		sugg.setBounds(1000, 200, 600, 600);
+		
+		System.out.println("jkldfnb");
+		
+		
+		JComboBox<String> weapg = new JComboBox<String>();
+		weapg.addItem("Handsaw");
+		weapg.addItem("Scooter");
+		weapg.addItem("Fork");
+		weapg.addItem("Belt");
+		weapg.addItem("Hamster");
+		weapg.addItem("Sponge");
+		weapg.setBorder(new TitledBorder (new EtchedBorder(), "Weapon Guess"));
+		sugg.add(weapg);
+		
+		JComboBox<String> persong = new JComboBox<String>();
+		persong.addItem("Trump");
+		persong.addItem("Hillary");
+		persong.addItem("Bernie");
+		persong.addItem("Miley");
+		persong.addItem("Kanye");
+		persong.addItem("Gaga");
+		persong.setBorder(new TitledBorder (new EtchedBorder(), "Person Guess"));
+		sugg.add(persong);
+		
+		sugg.setVisible(true);
 	}
 	// Accusation button
 	private class Accuse implements ActionListener {
@@ -134,8 +186,8 @@ public class ControlPanel extends JPanel {
 		return panel;
 	}	
 		
-	private void updateGuess() {
-		
+	private void updateGuess(Solution suggestion) {
+		guess.setText(suggestion.room + ", " + suggestion.weapon + ", " + suggestion.person);
 	}
 	
 	private void updateRoll() {
