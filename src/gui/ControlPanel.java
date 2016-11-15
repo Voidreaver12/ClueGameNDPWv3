@@ -16,6 +16,7 @@ import javax.swing.JTextField;
 
 import clueGame.Board;
 import clueGame.ComputerPlayer;
+import clueGame.HumanPlayer;
 import clueGame.Player;
 
 public class ControlPanel extends JPanel {
@@ -65,22 +66,35 @@ public class ControlPanel extends JPanel {
 	// Next Player button
 	private class NextPlayer implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			//System.out.println("Next Player button pressed.");
-			Board.getInstance().incrementTurn();
-			Random random = new Random();
-			intRoll = random.nextInt(6) + 1;
 			Board board = Board.getInstance();
-			Player current = board.getPlayers().get(board.getTurn());
-			if (current instanceof ComputerPlayer) {
-				board.calcTargets(board.getCellAt(current.getRow(), current.getColumn()), intRoll);
-				current.move(((ComputerPlayer) current).pickLocation(board.getTargets()));
-				System.out.println(board.getTargets());
-				System.out.println(current.getRow() + "    " + current.getColumn());
-				board.clearTargets();
+			if (board.turnInProgress()) {
+				// display error
 			}
-			updateTurn();
-			updateRoll();
-			board.repaint();
+			else {
+				//System.out.println("Next Player button pressed.");
+				board.incrementTurn();
+				Random random = new Random();
+				intRoll = random.nextInt(6) + 1;
+				updateTurn();
+				updateRoll();
+				Player current = board.getPlayers().get(board.getTurn());
+				if (current instanceof ComputerPlayer) {
+					board.clearTargets();
+					board.calcTargets(board.getCellAt(current.getRow(), current.getColumn()), intRoll);
+					current.move(((ComputerPlayer) current).pickLocation(board.getTargets()));
+					//System.out.println(board.getTargets());
+					//System.out.println(current.getRow() + "    " + current.getColumn());
+					board.repaint();
+				}
+				else if (current instanceof HumanPlayer) {
+					board.clearTargets();
+					board.calcTargets(board.getCellAt(current.getRow(), current.getColumn()), intRoll);
+					//System.out.println(board.getTargets());
+					board.doPlayerTurn();
+					board.repaint();
+				}
+				
+			}
 		}
 	}
 	// Accusation button

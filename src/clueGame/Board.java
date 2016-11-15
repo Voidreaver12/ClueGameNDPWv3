@@ -5,6 +5,8 @@ package clueGame;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -18,6 +20,7 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 
@@ -45,6 +48,7 @@ public class Board extends JPanel {
 	private ArrayList<Card> peopleCards = new ArrayList<Card>();
 	private Set<String> disprovedCards = new HashSet<String>();
 	private Solution theAnswer;
+	private boolean turnInProgress = false;
 
 	private Board(){
 		rooms = new HashMap<Character , String>();
@@ -52,6 +56,7 @@ public class Board extends JPanel {
 		adjMatrix = new HashMap<BoardCell, Set<BoardCell>>();
 		visited = new HashSet<BoardCell>();
 		targets = new HashSet<BoardCell>();
+		addMouseListener(new TileSelector());
 	}
 	public static Board getInstance() {
 		return theInstance;
@@ -213,6 +218,7 @@ public class Board extends JPanel {
 	}
 	public void clearTargets() {
 		targets.clear();
+		visited.clear();
 	}
 	
 	public void loadPlayersConfigFiles(String configFileName) throws BadConfigFormatException, FileNotFoundException{	
@@ -329,6 +335,15 @@ public class Board extends JPanel {
 				board[i][j].draw(g, j, i);
 			}
 		}
+		
+		if (turnInProgress) {
+			//System.out.println(targets);
+			for (BoardCell c : targets) {
+				//System.out.println("hello");
+				c.drawTarget(g);
+			}
+		}
+		
 		char[] library = {'L', 'i', 'b', 'r','a','r','y'};
 		g.drawChars(library, 0, 7, 245, 70);
 		char[] art = {'A','r','t',' ','G','a','l','l','e','r','y'};
@@ -347,19 +362,45 @@ public class Board extends JPanel {
 		g.drawChars(gameroom, 0, 8, 210, 650);
 		char[] lab = {'C','o','m','p','u','t','e','r',' ','L','a','b'};
 		g.drawChars(lab, 0, 12, 20, 650);
-
+		
 		for (Player p : players) {
 			g.setColor(p.getColor());
 			g.fillArc(p.getColumn()*SQUARE_SIZE+2, p.getRow()*SQUARE_SIZE+2, PLAYER_SIZE, PLAYER_SIZE, 0, 360);
 			g.setColor(Color.BLACK);
 			g.drawArc(p.getColumn()*SQUARE_SIZE+2, p.getRow()*SQUARE_SIZE+2, PLAYER_SIZE, PLAYER_SIZE, 0, 360);
 		}
+		
 	}
 	
 	
+	public void doPlayerTurn() {
+		turnInProgress = true;
+	}
 	
-	
-	
+	private class TileSelector implements MouseListener {
+		public void mouseClicked(MouseEvent event) {
+			boolean valid = false;
+			for (BoardCell c : targets) {
+				if (event.getX() >= c.getColumn()*SQUARE_SIZE
+						&& event.getX() <= (c.getColumn() + 1)*SQUARE_SIZE
+						&& event.getY() >= c.getRow()*SQUARE_SIZE
+						&& event.getY() <= (c.getRow() + 1)*SQUARE_SIZE) {
+					valid = true;
+					players.get(0).move(c);
+					turnInProgress = false;
+					break;
+				}
+			}
+			if (!valid) {
+				JOptionPane.showMessageDialog(Board.getInstance(),"That is not a valid target!", "Error", JOptionPane.INFORMATION_MESSAGE);
+			}
+			repaint();
+		}
+		public void mouseEntered(MouseEvent arg0) {}
+		public void mouseExited(MouseEvent arg0) {}
+		public void mousePressed(MouseEvent arg0) {}
+		public void mouseReleased(MouseEvent arg0) {}
+	}
 	public int getTurn() {
 		return whoseTurn;
 	}
@@ -368,6 +409,10 @@ public class Board extends JPanel {
 		if (whoseTurn >= players.size()) {
 			whoseTurn = 0;
 		}
+	}
+	
+	public boolean turnInProgress() {
+		return turnInProgress;
 	}
 	// For Testing
 	public void disprove(String c) {

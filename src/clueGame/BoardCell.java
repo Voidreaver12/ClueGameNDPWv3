@@ -90,5 +90,27 @@ public class BoardCell {
 		
 	}
 	
-	
+	public void drawTarget(Graphics g) {
+		final int size = 35;
+		g.setColor(Color.CYAN);
+		g.fillRect(getColumn()*size, getRow()*size, size, size);
+		g.setColor(Color.BLACK);
+		g.drawRect(getColumn()*size, getRow()*size, size, size);
+		g.setColor(Color.BLUE);
+		switch(opening) {
+		case UP:
+			g.fillRect(column*size, row*size, size, size/5);
+			break;
+		case DOWN:
+			g.fillRect(column*size, row*size+30, size, size/5);
+			break;
+		case RIGHT:
+			g.fillRect(column*size+30, row*size, size/5, size);
+			break;
+		case LEFT:
+			g.fillRect(column*size, row*size, size/5, size);
+			break;
+			
+		}
+	}
 }
