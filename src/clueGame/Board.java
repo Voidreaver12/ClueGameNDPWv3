@@ -198,6 +198,7 @@ public class Board extends JPanel {
 		}
 		visited.remove(startCell);
 	}
+	
 	public void calcTargets(int i, int j, int pathLength) {
 		BoardCell startCell = getCellAt(i, j);
 		targets.clear();
@@ -206,8 +207,12 @@ public class Board extends JPanel {
 		}
 		calcTargets(startCell,pathLength);
 	}
+	
 	public Set<BoardCell> getTargets() {
 		return targets;
+	}
+	public void clearTargets() {
+		targets.clear();
 	}
 	
 	public void loadPlayersConfigFiles(String configFileName) throws BadConfigFormatException, FileNotFoundException{	

@@ -15,6 +15,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import clueGame.Board;
+import clueGame.ComputerPlayer;
+import clueGame.Player;
 
 public class ControlPanel extends JPanel {
 	private String playerNameStr;
@@ -64,22 +66,21 @@ public class ControlPanel extends JPanel {
 	private class NextPlayer implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			//System.out.println("Next Player button pressed.");
+			Board.getInstance().incrementTurn();
 			Random random = new Random();
 			intRoll = random.nextInt(6) + 1;
-			if (Board.getInstance().getTurn() == 0) {
-				System.out.println("players turn");
-				System.out.println(intRoll);
-				// do stuff
-				Board.getInstance().incrementTurn();
-			}
-			else {
-				System.out.println("computers turn");
-				System.out.println(intRoll);
-				// do stuff
-				Board.getInstance().incrementTurn();
+			Board board = Board.getInstance();
+			Player current = board.getPlayers().get(board.getTurn());
+			if (current instanceof ComputerPlayer) {
+				board.calcTargets(board.getCellAt(current.getRow(), current.getColumn()), intRoll);
+				current.move(((ComputerPlayer) current).pickLocation(board.getTargets()));
+				System.out.println(board.getTargets());
+				System.out.println(current.getRow() + "    " + current.getColumn());
+				board.clearTargets();
 			}
 			updateTurn();
 			updateRoll();
+			board.repaint();
 		}
 	}
 	// Accusation button

@@ -70,4 +70,9 @@ public abstract class Player {
 	public void setCards(Set<Card> cards) {
 		myCards = cards;
 	}
+
+	public void move(BoardCell location) {
+		setRow(location.getRow());
+		setColumn(location.getColumn());
+	}
 }
