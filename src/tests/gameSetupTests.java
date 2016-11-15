@@ -27,6 +27,7 @@ public class gameSetupTests {
 		board = Board.getInstance();
 		board.setConfigFiles("ClueLayout.csv", "Legend.txt");		
 		board.initialize();
+		/*
 		try {
 			board.loadPlayersConfigFiles("Players.txt");
 			board.loadWeaponsConfigFiles("Weapons.txt");
@@ -37,6 +38,7 @@ public class gameSetupTests {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		*/
 	}
 	
 	@Test
@@ -100,7 +102,7 @@ public class gameSetupTests {
 	public void dealCardsTest() {
 		ArrayList<Player> players = board.getPlayers();
 		ArrayList<Card> deck = board.getDeck();
-		board.dealCards();
+		//board.dealCards();
 		// make sure that the cards left is 0
 		assertEquals(0, deck.size());
 		// Check to make sure everyone has 3 cards. 21 cards, 3 in solution, 18/6 = 3

@@ -4,3 +4,9 @@ Whoa there, your files have not been configured properly
 Invalid number of columns per row
 The board config has a room that is not in the legend
 Whoa there, your files have not been configured properly
+Invalid number of columns per row
+The board config has a room that is not in the legend
+Whoa there, your files have not been configured properly
+Invalid number of columns per row
+The board config has a room that is not in the legend
+Whoa there, your files have not been configured properly

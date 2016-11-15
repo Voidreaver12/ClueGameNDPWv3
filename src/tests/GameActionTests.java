@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -29,6 +30,7 @@ public class GameActionTests {
 		board = Board.getInstance();
 		board.setConfigFiles("ClueLayout.csv", "Legend.txt");		
 		board.initialize();
+		/*
 		try {
 			board.loadPlayersConfigFiles("Players.txt");
 			board.loadWeaponsConfigFiles("Weapons.txt");
@@ -39,11 +41,13 @@ public class GameActionTests {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		*/
 	}
 	
 	@Test
 	public void makeAccusationTest() {
 		// solution that is correct test
+		Solution temp = board.getAnswer();
 		Solution accusation = new Solution("Bernie","Library", "Sponge");	
 		board.setSolution("Bernie","Library", "Sponge");
 		assertTrue(board.checkAccusation(accusation));
@@ -56,6 +60,7 @@ public class GameActionTests {
 		//accusation with wrong weapon
 		accusation = new Solution("Bernie","Library", "Belt");
 		assertFalse(board.checkAccusation(accusation));
+		board.setSolution(temp.person, temp.room, temp.weapon);
 	}
 	
 	@Test
@@ -199,12 +204,12 @@ public class GameActionTests {
 	
 	@Test
 	public void handleSuggestionTest() {
-		ComputerPlayer bernie = new ComputerPlayer("Bernie", 10, 3, Color.BLUE);
-		board.dealCards();
 		ArrayList<Player> players = board.getPlayers();
 		// Test the solution, none should have a match
 		Solution suggestion = board.getAnswer();
-		assertEquals(null, board.handleSuggestion(suggestion, players.get(1)));
+		System.out.println(suggestion.person + " " + suggestion.room + " " + suggestion.weapon);
+		Card c = board.handleSuggestion(suggestion, players.get(0));
+		assertEquals(null, c);
 		
 		
 		// Explicitly give people certain cards
