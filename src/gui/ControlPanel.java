@@ -76,19 +76,17 @@ public class ControlPanel extends JPanel {
 				// display error
 			}
 			else {
-				//System.out.println("Next Player button pressed.");
 				board.incrementTurn();
 				Random random = new Random();
 				intRoll = random.nextInt(6) + 1;
 				updateTurn();
 				updateRoll();
 				Player current = board.getPlayers().get(board.getTurn());
+				
 				if (current instanceof ComputerPlayer) {
 					board.clearTargets();
 					board.calcTargets(board.getCellAt(current.getRow(), current.getColumn()), intRoll);
 					current.move(((ComputerPlayer) current).pickLocation(board.getTargets()));
-					//System.out.println(board.getTargets());
-					//System.out.println(current.getRow() + "    " + current.getColumn());
 					board.repaint();
 					if (board.getCellAt(current.getRow(), current.getColumn()).isRoom()) {
 						Solution suggestion = current.createSuggestion();
@@ -103,14 +101,10 @@ public class ControlPanel extends JPanel {
 				else if (current instanceof HumanPlayer) {
 					board.clearTargets();
 					board.calcTargets(board.getCellAt(current.getRow(), current.getColumn()), intRoll);
-					//System.out.println(board.getTargets());
+					Solution suggestion = new Solution();
+					updateGuess(suggestion);
 					board.doPlayerTurn();
 					board.repaint();
-					//System.out.println(board.getCellAt(current.getRow(), current.getColumn()));
-					if (board.getCellAt(current.getRow(), current.getColumn()).isRoom()) {
-						//procSuggestion(current);
-						//System.out.println("jkldfnb");
-					}
 				}
 				
 			}
@@ -118,37 +112,6 @@ public class ControlPanel extends JPanel {
 	}
 	
 	
-	private void procSuggestion(Player human) {
-		JDialog sugg = new JDialog();
-		sugg.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		sugg.setLayout(new GridLayout(3,2));
-		sugg.setBounds(1000, 200, 600, 600);
-		
-		System.out.println("jkldfnb");
-		
-		
-		JComboBox<String> weapg = new JComboBox<String>();
-		weapg.addItem("Handsaw");
-		weapg.addItem("Scooter");
-		weapg.addItem("Fork");
-		weapg.addItem("Belt");
-		weapg.addItem("Hamster");
-		weapg.addItem("Sponge");
-		weapg.setBorder(new TitledBorder (new EtchedBorder(), "Weapon Guess"));
-		sugg.add(weapg);
-		
-		JComboBox<String> persong = new JComboBox<String>();
-		persong.addItem("Trump");
-		persong.addItem("Hillary");
-		persong.addItem("Bernie");
-		persong.addItem("Miley");
-		persong.addItem("Kanye");
-		persong.addItem("Gaga");
-		persong.setBorder(new TitledBorder (new EtchedBorder(), "Person Guess"));
-		sugg.add(persong);
-		
-		sugg.setVisible(true);
-	}
 	// Accusation button
 	private class Accuse implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
@@ -186,14 +149,14 @@ public class ControlPanel extends JPanel {
 		return panel;
 	}	
 		
-	private void updateGuess(Solution suggestion) {
+	public void updateGuess(Solution suggestion) {
 		guess.setText(suggestion.room + ", " + suggestion.weapon + ", " + suggestion.person);
 	}
 	
-	private void updateRoll() {
+	public void updateRoll() {
 		roll.setText(String.valueOf(intRoll));
 	}
-	private void updateTurn() {
+	public void updateTurn() {
 		playerName.setText(Board.getInstance().getPlayers().get(Board.getInstance().getTurn()).getPlayerName());
 	}
 	

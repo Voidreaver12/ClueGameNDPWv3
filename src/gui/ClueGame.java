@@ -19,14 +19,16 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 import clueGame.Board;
+import clueGame.Solution;
 
 public class ClueGame extends JFrame {
 	Board board = Board.getInstance();
+	ControlPanel control;
 	public ClueGame() {
 		setTitle("Clue");
 		setSize(new Dimension(850, 850));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		ControlPanel control = new ControlPanel();
+		control = new ControlPanel();
 		add(control, BorderLayout.SOUTH);
 		
 		board.setConfigFiles("ClueLayout.csv", "Legend.txt");
@@ -67,7 +69,9 @@ public class ClueGame extends JFrame {
 		item.addActionListener(new MenuItemListener());
 		return item;
 	}
-	
+	public void updateControl(Solution suggestion) {
+		control.updateGuess(suggestion);
+	}
 	public static void main(String[] args) {
 		ClueGame clue = new ClueGame();
 		clue.setVisible(true);

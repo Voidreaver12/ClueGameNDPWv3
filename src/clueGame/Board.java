@@ -6,9 +6,11 @@ package clueGame;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -58,6 +60,10 @@ public class Board extends JPanel {
 	private Set<String> disprovedCards = new HashSet<String>();
 	private Solution theAnswer;
 	private boolean turnInProgress = false;
+	private boolean suggestionSubmitted = false;
+	private String suggestedRoom;
+	private String suggestedPerson;
+	private String suggestedWeapon;
 
 	private Board(){
 		rooms = new HashMap<Character , String>();
@@ -397,45 +403,9 @@ public class Board extends JPanel {
 					valid = true;
 					players.get(0).move(c);
 					if (c.isRoom()) {
-						//System.out.println("hello");
-						JDialog sugg = new JDialog();
-						sugg.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-						sugg.setLayout(new GridLayout(3,2));
-						sugg.setBounds(1000, 200, 600, 600);
-						sugg.setTitle("Create Suggestion");
-						//System.out.println("jkldfnb");
-						JTextField roomg = new JTextField();
-						roomg.setText(rooms.get(c.getInitial()));
-						roomg.setBorder(new TitledBorder (new EtchedBorder(), "Room Guess"));
-						roomg.setEditable(false);
-						sugg.add(roomg);
-						
-						JComboBox<String> weapg = new JComboBox<String>();
-						weapg.addItem("Handsaw");
-						weapg.addItem("Scooter");
-						weapg.addItem("Fork");
-						weapg.addItem("Belt");
-						weapg.addItem("Hamster");
-						weapg.addItem("Sponge");
-						weapg.setBorder(new TitledBorder (new EtchedBorder(), "Weapon Guess"));
-						sugg.add(weapg);
-						
-						JComboBox<String> persong = new JComboBox<String>();
-						persong.addItem("Trump");
-						persong.addItem("Hillary");
-						persong.addItem("Bernie");
-						persong.addItem("Miley");
-						persong.addItem("Kanye");
-						persong.addItem("Gaga");
-						persong.setBorder(new TitledBorder (new EtchedBorder(), "Person Guess"));
-						sugg.add(persong);
-						
-						JButton okay = new JButton("Submit!");
-//						okay.addActionListener(new Accuse());
-						sugg.add(okay);
-						
+						JDialog sugg = createSuggestion(c);
 						sugg.setVisible(true);
-						
+						// TODO need to update control panel to display guess
 					}
 					turnInProgress = false;
 					break;
@@ -451,6 +421,69 @@ public class Board extends JPanel {
 		public void mousePressed(MouseEvent arg0) {}
 		public void mouseReleased(MouseEvent arg0) {}
 	}
+	
+	private JDialog createSuggestion(BoardCell c) {
+		JDialog sugg = new JDialog();
+		sugg.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		sugg.setLayout(new GridLayout(0,1));
+		sugg.setBounds(1000, 200, 200, 400);
+		sugg.setTitle("Create Suggestion");
+		//System.out.println("jkldfnb");
+		JTextField roomg = new JTextField();
+		roomg.setText(rooms.get(c.getInitial()));
+		roomg.setBorder(new TitledBorder (new EtchedBorder(), "Room Guess"));
+		roomg.setEditable(false);
+		suggestedRoom = rooms.get(c.getInitial());
+		
+		JComboBox<String> weapg = new JComboBox<String>();
+		weapg.addItem("Handsaw");
+		weapg.addItem("Scooter");
+		weapg.addItem("Fork");
+		weapg.addItem("Belt");
+		weapg.addItem("Hamster");
+		weapg.addItem("Sponge");
+		weapg.setBorder(new TitledBorder (new EtchedBorder(), "Weapon Guess"));
+		
+		JComboBox<String> persong = new JComboBox<String>();
+		persong.addItem("Trump");
+		persong.addItem("Hillary");
+		persong.addItem("Bernie");
+		persong.addItem("Miley");
+		persong.addItem("Kanye");
+		persong.addItem("Gaga");
+		persong.setBorder(new TitledBorder (new EtchedBorder(), "Person Guess"));
+		
+		JButton okay = new JButton("Submit!");
+		
+		class Suggest implements ActionListener {
+			public void actionPerformed(ActionEvent e) {
+				suggestionSubmitted = true;
+				sugg.setVisible(false);	
+			}
+		}
+		okay.addActionListener(new Suggest());
+		
+		class ComboListener implements ActionListener {
+			public void actionPerformed(ActionEvent e) {
+				if (e.getSource() ==weapg) {
+					suggestedWeapon = weapg.getSelectedItem().toString();
+				}
+				if (e.getSource() == persong) {
+					suggestedPerson = persong.getSelectedItem().toString();
+				}
+			}
+		}
+		ComboListener listener = new ComboListener();
+		weapg.addActionListener(listener);
+		persong.addActionListener(listener);
+		
+		sugg.add(roomg);
+		sugg.add(weapg);
+		sugg.add(persong);
+		sugg.add(okay);
+		return sugg;
+	}
+	
 	public int getTurn() {
 		return whoseTurn;
 	}
