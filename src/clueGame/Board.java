@@ -6,6 +6,7 @@ package clueGame;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
@@ -21,6 +22,7 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -427,6 +429,10 @@ public class Board extends JPanel {
 						persong.addItem("Gaga");
 						persong.setBorder(new TitledBorder (new EtchedBorder(), "Person Guess"));
 						sugg.add(persong);
+						
+						JButton okay = new JButton("Submit!");
+//						okay.addActionListener(new Accuse());
+						sugg.add(okay);
 						
 						sugg.setVisible(true);
 						
